@@ -39,6 +39,7 @@ input {
   padding: .4em .5em;
   background-color: var(--app-grey);
   border: 1px solid var(--app-grey);
+  border-color: rgb(255, 255, 255);
   border-radius: 2em;
 }
 
