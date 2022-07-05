@@ -35,11 +35,11 @@ form:after {
 
 
 input {
-  width: 100%;
+  width: 90%;
   padding: .4em .5em;
   background-color: var(--app-grey);
   border: 1px solid var(--app-grey);
-  border-radius: .2em;
+  border-radius: 2em;
 }
 
 input:focus {
@@ -94,12 +94,21 @@ button {
   text-align: center;
 }
 
-#button{
+#confirm{
   color:aliceblue;
-  height: 1em;
+  height: 1,5em;
   text-align: center;
   margin: 1em auto 1em auto;
-  padding: 5px;
-  background-color: blue;
+  padding: 10px;
+  background-color: rgb(12, 81, 185);
   border-radius: 20px;
+}
+
+input:invalid{
+  border-color: rgb(226, 67, 99);
+  box-shadow: 0px 0px 3px rgb(226, 67, 99);
+}
+
+#resultado{
+  color: rgb(233, 0, 0);
 }

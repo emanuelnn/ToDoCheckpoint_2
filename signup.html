@@ -27,35 +27,34 @@
         <p>To-Do App</p>
       </div>
 
-      <label>
-        Nome:
-        <input type="text" id="name">
+      <label id="label">
+        Nome:*
+        <input type="text"  id="name">
       </label>
-      <label>
-        Sobrenome:
+      <label id="label">
+        Sobrenome:*
         <input type="text" id="sub_name">
       </label>
-      <label>
-        Email:
+      <label id="label">
+        Email:*
         <input type="email" id="email">
       </label>
-      <label>
-        Senha:
+      <label id="label">
+        Senha:*
         <input type="password" id="password">
       </label>
-      <label>
-        Repetir senha:
-        <input type="password" onchange= "" id="confirm_password">
+      <label id="label">
+        Repetir senha:*
+        <input type="password" id="confirm_password">
       </label>
-      <label id="resultado"></label>
+      <label id="resultado"><strong></strong></label>
     </form>
-    <button onclick="validacoes()">Criar conta</button>
-    
+    <button onclick="Validacoes()" id="confirm" >Criar conta</button>
+
     <div class="ingressar">
       <a href="index.html">Já possui conta? Acesse aqui</a>
     </div>
   </div>
-
 </body>
 
 </html>
