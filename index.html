@@ -11,12 +11,10 @@
   <link rel="stylesheet" href="styles/acesso.css">
 
   <!-- ---------------------- lógica aplicada no login ----------------------- -->
-  <script src="/scripts/utils.js"></script>
-  <script src="/scripts/index.js"></script>
-
+  <script src="./scripts/singup.js"></script>
+  <script src="./scripts/index.js"></script>
 </head>
-
-<body>
+<body onload="buttonDisable()">
   <div class="left">
     <img src="./assets/pessoa-login.png" alt="">
   </div>
@@ -27,38 +25,22 @@
         <p>To-Do App</p>
       </div>
       <h1>Acessar</h1>
-      <label for="inputEmail">
+      <label>
         Email:
-        <input class="input" id="inputEmail" type="text" required>
+        <input id="inputEmail" onblur="buttonDisable()" type="text">
       </label>
-      <label for="inputPassword">
+      <label>
         Senha:
-        <input class="input" id="inputPassword" type="password" required>
+        <input id="inputPassword" onblur="buttonDisable()" type="password">
       </label>
-
-      <button class="button" type="submit" id="button">Acessar</button>
-
+      <button onclick="push()" type="button" id="acessar">Acessar</button>
     </form>
+    
     <div class="ingressar">
       <a href="signup.html">Não possui conta? Crie agora mesmo</a>
     </div>
   </div>
 
 </body>
-
-<script>
-  let input = document.querySelector(".input");
-  let button = document.querySelector(".button");
-  button.disabled = true;
-  input.addEventListener("change", stateHandle);
-  
-  function stateHandle() {
-      if(document.querySelector(".input").value === "") {
-          button.disabled = true;
-      } else {
-          button.disabled = false;
-      }
-  }
-  </script>
 
 </html>
