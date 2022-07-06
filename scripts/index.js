@@ -1,4 +1,4 @@
-function push() {
+function login() {
 
     var emailLogin = document.getElementById("inputEmail").value
     var senhaLogin = document.getElementById("inputPassword").value
