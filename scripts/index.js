@@ -28,7 +28,9 @@ function login() {
                 success => {
                     if (response.status == "201") {
                         alert("Usuário logado!")
-                        window.location.href = "./tarefas.html"
+                       // window.location.href = "./tarefas.html"
+                    }else if(success == "Contraseña incorrecta"){
+                        document.getElementById("alertPassword").value = "Senha Incorreta"
                     }
                     console.log(response)
                     console.log(success)
