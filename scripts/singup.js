@@ -170,38 +170,3 @@ function validarCampos(color) {
     resultado.innerHTML = ""
 }
 
-
-function obterUsuario(key) {
-    var requestHeaders = {
-        'Accept': 'application/json',
-        'authorization': key
-    }
-    // Variavel que irá conter o nosso objeto de configuração da requisição
-    var requestPostConfiguration = {
-        method: 'GET',
-        headers: requestHeaders,
-        body: JSON.stringify(requestHeaders)
-    }
-    // O Fetch é responsável por fazer uma requisição para um back-end
-    // O parametro do fetch serve justamente para especificarmos aonde ele irá fazer a requisição
-    fetch('https://https://ctd-todo-api.herokuapp.com/v1/users/getMe',requestPostConfiguration).then(
-
-        response => {
-
-            response.json().then(
-
-                user => {
-                    console.log(`Mensagem do Console:${response}`)
-                    console.log(response)
-                    console.log(`Mensagem do Console:${success}`)
-                    console.log(success)
-                }
-
-            )
-
-
-        }
-
-    )
-}
-obterUsuario("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6I…A0NH0.9bHbkHxNeXCpPIc3g094Z4YJ6U2CLH3kUx8i9SfbUH4")
