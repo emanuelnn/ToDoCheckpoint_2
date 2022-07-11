@@ -19,11 +19,11 @@ function login() {
             }
 
             // Variavel que irá conter o nosso objeto de configuração da requisição
-            var requestPostConfiguration = {
-                method: 'POST',
-                headers: requestHeaders,
-                body: JSON.stringify(formData)
-            }
+                var requestPostConfiguration = {
+                    method: 'POST',
+                    headers: requestHeaders,
+                    body: JSON.stringify(formData)
+                }
 
             // O Fetch é responsável por fazer uma requisição para um back-end
             // O parametro do fetch serve justamente para especificarmos aonde ele irá fazer a requisição
@@ -46,13 +46,11 @@ function login() {
                     )
                 }
             )
-
         } else {
             document.getElementById("inputEmail").style.borderBlockColor = erro
             alert.innerHTML = "Insira um endereço de E-mail válido!"
         }
     }
-
 }
 
 function buttonDisable() {

@@ -138,16 +138,10 @@ function push(dados) {
                         if (success === 'El usuario ya se encuentra registrado') {
                             document.querySelector("#resultado").value = 'O e-mail digitado já esta cadastrado'
                         }
-
                     }
-
                 }
-
             )
-
-
         }
-
     )
 }
 
