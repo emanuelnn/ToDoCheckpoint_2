@@ -50,6 +50,7 @@ function usuarioLoad() {
 
 
 
+
 // obter lista de tarefas
 
 // Função que Obtem as Tarefas
@@ -85,6 +86,7 @@ token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN0cmluZyIsImlkIjo1MS
                     <li class="tarefa">
                       <div class="not-done"></div>
                       <div class="descricao"><p>${task.description}</p>
+
                         <p>${task.createdAt}</p>
                       </div>
                     </li>
