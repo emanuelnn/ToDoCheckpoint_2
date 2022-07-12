@@ -117,7 +117,7 @@ function push(dados) {
     }
     // O Fetch é responsável por fazer uma requisição para um back-end
     // O parametro do fetch serve justamente para especificarmos aonde ele irá fazer a requisição
-    fetch('https://ctd-todo-api.herokuapp.com/v1/users', requestPostConfiguration).then(
+    fetch('https://ctd-fe2-todo-v2.herokuapp.com/v1/users', requestPostConfiguration).then(
 
         response => {
 
@@ -138,16 +138,10 @@ function push(dados) {
                         if (success === 'El usuario ya se encuentra registrado') {
                             document.querySelector("#resultado").value = 'O e-mail digitado já esta cadastrado'
                         }
-
                     }
-
                 }
-
             )
-
-
         }
-
     )
 }
 
@@ -169,4 +163,3 @@ function validarCampos(color) {
     document.getElementById("name").style.borderRadius = "2em"
     resultado.innerHTML = ""
 }
-
