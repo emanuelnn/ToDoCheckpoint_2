@@ -154,7 +154,7 @@ function getListTarefas() {
                           <div class="not-done"></div>
                           <div class="descricao"><p>${task.description}</p>
                             <p class="nome">Nova tarefa</p>
-                            <p>${Date(task.createdAt)}</p>
+                            <p>${task.createdAt}</p>
                         </li>
                         `
                     }
