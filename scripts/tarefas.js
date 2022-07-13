@@ -22,7 +22,7 @@ function usuarioLoad() {
     }
     // O Fetch é responsável por fazer uma requisição para um back-end
     // O parametro do fetch serve justamente para especificarmos aonde ele irá fazer a requisição
-    fetch('https://ctd-todo-api.herokuapp.com/v1/users/getMe', { headers: headersAuthRequest }).then(
+    fetch('https://ctd-fe2-todo-v2.herokuapp.com/v1/users/getMe', { headers: headersAuthRequest }).then(
         response => {
             if (response.ok) {
                 response.json().then(
@@ -52,7 +52,7 @@ function usuarioLoad() {
 
 function getUserInfo() {
 
-    fetch('https://ctd-fe2-todo-v2.herokuapp.com/v1/users/getMe', { headers: headersAuthRequest }).then(
+    fetch(`${apiUrl}/users/getMe`, { headers: headersAuthRequest }).then(
 
         response => {
 
