@@ -3,23 +3,24 @@ const createTaskButtonElement = document.querySelector('#createTaskButton')
 const skeletonElement = document.querySelector('#skeleton')
 var token = sessionStorage.User
 
+// CONFIGURAÇÃO DO HEADER DE AUTENTICAÇÃO PARA RODAR O GETME E OBTER NOME, SOBRENOME, EMAIL E ID DO USUÁRIO
+var headersAuthRequest = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': token
+}
+    
 function logout() {
     window.location.href = "./index.html"
     // AO FAZER LOGOUT REMOVER DADOS DO SESSION STORAGE 
     sessionStorage.User = ""
 }
+
+
 function usuarioLoad() {
     //1 - VALIDAR SE NA SESSIONSTORAGE EXISTE UM USUÁRIO SALVO
     // * SE HOUVER = LOGIN OK
-    
-    // CONFIGURAÇÃO DO HEADER DE AUTENTICAÇÃO PARA RODAR O GETME E OBTER NOME, SOBRENOME, EMAIL E ID DO USUÁRIO
-    var headersAuthRequest = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': token
-    }
-    // O Fetch é responsável por fazer uma requisição para um back-end
-    // O parametro do fetch serve justamente para especificarmos aonde ele irá fazer a requisição
+   
     fetch('https://ctd-fe2-todo-v2.herokuapp.com/v1/users/getMe', { headers: headersAuthRequest }).then(
         response => {
             if (response.ok) {
@@ -50,6 +51,7 @@ function usuarioLoad() {
 
 function getUserInfo() {
 
+    
     fetch(`${apiUrl}/users/getMe`, { headers: headersAuthRequest }).then(
 
         response => {
@@ -140,11 +142,6 @@ if(token === null) {
 //       Função que so deus sabe
 //============================================
 function getListTarefas() {
-    const headersAuthRequest = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': token
-    }
 
     fetch('https://ctd-fe2-todo-v2.herokuapp.com/v1/tasks', { headers: headersAuthRequest }).then(
         response => {
@@ -157,7 +154,7 @@ function getListTarefas() {
                           <div class="not-done"></div>
                           <div class="descricao"><p>${task.description}</p>
                             <p class="nome">Nova tarefa</p>
-                            <p>${task.createdAt}</p>
+                            <p>${Date(task.createdAt)}</p>
                         </li>
                         `
                     }
