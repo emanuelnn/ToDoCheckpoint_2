@@ -133,8 +133,8 @@ if(token === null) {
 
     window.location.href = './../index.html'
 } else {
-    getUserInfo()
-    getTasks()
+    // getUserInfo()
+  //  getTasks()
 }
 
 
