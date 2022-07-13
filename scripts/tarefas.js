@@ -47,6 +47,7 @@ function usuarioLoad() {
 
 //============================================
 //     Função para mostrar Nome do User
+//   Função Duplicada: A função usuarioLoad já realiza o processo de buscar os dados do usário e inserir Nome e Sobrenome na página.
 //============================================
 
 function getUserInfo() {
@@ -86,6 +87,7 @@ function getUserInfo() {
 
 //============================================
 //       Função que Obtem as Tarefas
+// Função Duplicada, a função "getListTarefas" já realiza o processo de Obter as Tarefas e Inseri-las na página
 //============================================
 function getTasks() {
 
@@ -140,6 +142,7 @@ if(token === null) {
 
 //============================================
 //       Função que so deus sabe
+// Função para obter as tarefas concluídas e pendentes.
 //============================================
 function getListTarefas() {
 
@@ -154,7 +157,7 @@ function getListTarefas() {
                           <div class="not-done"></div>
                           <div class="descricao"><p>${task.description}</p>
                             <p class="nome">Nova tarefa</p>
-                            <p>${task.createdAt}</p>
+                            <p>${FormatarData(task.createdAt)}</p>
                         </li>
                         `
                     }
@@ -167,7 +170,7 @@ function getListTarefas() {
                       <div class="not-done"></div>
                       <div class="descricao"><p>${task.description}</p>
 
-                        <p>${task.createdAt}</p>
+                        <p>${FormatarData(task.createdAt)}</p>
                       </div>
                     </li>
                     `
@@ -239,4 +242,13 @@ let dataCriacaoFormatada = dataCriacao.toLocaleDateString(
     }
 )
 
+function FormatarData(){
+    var data = new Date(),
+        dia  = data.getDate().toString(),
+        diaF = (dia.length == 1) ? '0'+dia : dia,
+        mes  = (data.getMonth()+1).toString(), //+1
+        mesF = (mes.length == 1) ? '0'+mes : mes,
+        anoF = data.getFullYear();
+    return diaF+"/"+mesF+"/"+anoF;
+}
 // parei a aula de 05/07 as 53:02
