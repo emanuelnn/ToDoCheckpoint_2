@@ -1,6 +1,7 @@
 const apiUrl = 'https://ctd-fe2-todo-v2.herokuapp.com'
 const createTaskButtonElement = document.querySelector('#createTaskButton')
 const skeletonElement = document.querySelector('#skeleton')
+var token = sessionStorage.User
 
 function logout() {
     window.location.href = "./index.html"
@@ -10,10 +11,7 @@ function logout() {
 function usuarioLoad() {
     //1 - VALIDAR SE NA SESSIONSTORAGE EXISTE UM USUÁRIO SALVO
     // * SE HOUVER = LOGIN OK
-
-    // OBTER DA SESSIONSTORAGE O TOKEN DO USUÁRIO LOGADO
-    var token = sessionStorage.User
-
+    
     // CONFIGURAÇÃO DO HEADER DE AUTENTICAÇÃO PARA RODAR O GETME E OBTER NOME, SOBRENOME, EMAIL E ID DO USUÁRIO
     var headersAuthRequest = {
         'Accept': 'application/json',
