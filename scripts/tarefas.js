@@ -2,28 +2,27 @@ const apiUrl = 'https://ctd-fe2-todo-v2.herokuapp.com'
 const createTaskButtonElement = document.querySelector('#createTaskButton')
 const skeletonElement = document.querySelector('#skeleton')
 const listTasks = document.querySelector('.tarefas-pendentes')
+var token = sessionStorage.User
 
+// CONFIGURAÇÃO DO HEADER DE AUTENTICAÇÃO PARA RODAR O GETME E OBTER NOME, SOBRENOME, EMAIL E ID DO USUÁRIO
+var headersAuthRequest = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': token
+}
+    
 function logout() {
     window.location.href = "./index.html"
     // AO FAZER LOGOUT REMOVER DADOS DO SESSION STORAGE 
     sessionStorage.User = ""
 }
+
+
 function usuarioLoad() {
     //1 - VALIDAR SE NA SESSIONSTORAGE EXISTE UM USUÁRIO SALVO
     // * SE HOUVER = LOGIN OK
-
-    // OBTER DA SESSIONSTORAGE O TOKEN DO USUÁRIO LOGADO
-    var token = sessionStorage.User
-
-    // CONFIGURAÇÃO DO HEADER DE AUTENTICAÇÃO PARA RODAR O GETME E OBTER NOME, SOBRENOME, EMAIL E ID DO USUÁRIO
-    var headersAuthRequest = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': token
-    }
-    // O Fetch é responsável por fazer uma requisição para um back-end
-    // O parametro do fetch serve justamente para especificarmos aonde ele irá fazer a requisição
-    fetch('https://ctd-todo-api.herokuapp.com/v1/users/getMe', { headers: headersAuthRequest }).then(
+   
+    fetch('https://ctd-fe2-todo-v2.herokuapp.com/v1/users/getMe', { headers: headersAuthRequest }).then(
         response => {
             if (response.ok) {
                 response.json().then(
@@ -49,11 +48,13 @@ function usuarioLoad() {
 
 //============================================
 //     Função para mostrar Nome do User
+//   Função Duplicada: A função usuarioLoad já realiza o processo de buscar os dados do usário e inserir Nome e Sobrenome na página.
 //============================================
 
 function getUserInfo() {
 
-    fetch('https://ctd-fe2-todo-v2.herokuapp.com/v1/users/getMe', { headers: headersAuthRequest }).then(
+    
+    fetch(`${apiUrl}/users/getMe`, { headers: headersAuthRequest }).then(
 
         response => {
 
@@ -87,6 +88,7 @@ function getUserInfo() {
 
 //============================================
 //       Função que Obtem as Tarefas
+// Função Duplicada, a função "getListTarefas" já realiza o processo de Obter as Tarefas e Inseri-las na página
 //============================================
 function getTasks() {
 
@@ -133,20 +135,16 @@ if(token === null) {
 
     window.location.href = './../index.html'
 } else {
-    getUserInfo()
-    getTasks()
+    // getUserInfo()
+  //  getTasks()
 }
 
 
 //============================================
 //       Função que so deus sabe
+// Função para obter as tarefas concluídas e pendentes.
 //============================================
 function getListTarefas() {
-    const headersAuthRequest = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': token
-    }
 
     fetch('https://ctd-fe2-todo-v2.herokuapp.com/v1/tasks', { headers: headersAuthRequest }).then(
         response => {
@@ -159,7 +157,7 @@ function getListTarefas() {
                           <div class="not-done"></div>
                           <div class="descricao"><p>${task.description}</p>
                             <p class="nome">Nova tarefa</p>
-                            <p>${task.createdAt}</p>
+                            <p>Criada em: ${FormatarData(task.createdAt)}</p>
                         </li>
                         `
                     }
@@ -172,7 +170,7 @@ function getListTarefas() {
                       <div class="not-done"></div>
                       <div class="descricao"><p>${task.description}</p>
 
-                        <p>${task.createdAt}</p>
+                        <p>Criada em: ${FormatarData(task.createdAt)}</p>
                       </div>
                     </li>
                     `
@@ -244,4 +242,13 @@ let dataCriacaoFormatada = dataCriacao.toLocaleDateString(
     }
 )
 
+function FormatarData(){
+    var data = new Date(),
+        dia  = data.getDate().toString(),
+        diaF = (dia.length == 1) ? '0'+dia : dia,
+        mes  = (data.getMonth()+1).toString(), //+1
+        mesF = (mes.length == 1) ? '0'+mes : mes,
+        anoF = data.getFullYear();
+    return diaF+"/"+mesF+"/"+anoF;
+}
 // parei a aula de 05/07 as 53:02
