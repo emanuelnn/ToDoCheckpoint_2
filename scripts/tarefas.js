@@ -1,6 +1,7 @@
 const apiUrl = 'https://ctd-fe2-todo-v2.herokuapp.com'
 const createTaskButtonElement = document.querySelector('#createTaskButton')
 const skeletonElement = document.querySelector('#skeleton')
+const listTasks = document.querySelector('.tarefas-pendentes')
 
 function logout() {
     window.location.href = "./index.html"
@@ -97,6 +98,8 @@ function getTasks() {
 
                 tasks => {
 
+                    skeletonElement.style.display = 'none'
+
                     // Remoção dos itens que estavam antes dentro da Lista inicial
                     listTasks.innerHTML = ''
 
@@ -104,19 +107,16 @@ function getTasks() {
 
                         console.log(task)
 
-                        for(let task of tasks){
-
+                        listTasks.innerHTML +=
                             `
                                 <li class="tarefa">
                                     <div class="not-done"></div>
                                     <div class="descricao">
-                                        <p class="nome">NovaTarefa</p>
+                                        <p class="nome">${task.description}</p>
                                         <p class="timestamp">Criada em: 15/07/21</p>
                                     </div>
                                 </li>
                             `
-                        }
-
                     }
 
                 }
