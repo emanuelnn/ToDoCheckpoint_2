@@ -157,7 +157,7 @@ function getListTarefas() {
                           <div class="not-done"></div>
                           <div class="descricao"><p>${task.description}</p>
                             <p class="nome">Nova tarefa</p>
-                            <p>${FormatarData(task.createdAt)}</p>
+                            <p>Criada em: ${FormatarData(task.createdAt)}</p>
                         </li>
                         `
                     }
@@ -170,7 +170,7 @@ function getListTarefas() {
                       <div class="not-done"></div>
                       <div class="descricao"><p>${task.description}</p>
 
-                        <p>${FormatarData(task.createdAt)}</p>
+                        <p>Criada em: ${FormatarData(task.createdAt)}</p>
                       </div>
                     </li>
                     `
