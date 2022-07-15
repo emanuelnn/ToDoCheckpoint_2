@@ -69,7 +69,7 @@ function criarTask() {
                 )
             }
         )
-    } else { alert("Insira uma Nova Tarefa!") }
+    } else { alert("Atenção! Mínimo de 5 Caracteres") }
 }
 //========================================================================================================================
 
