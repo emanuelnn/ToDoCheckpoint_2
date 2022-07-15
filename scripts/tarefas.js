@@ -1,180 +1,121 @@
-const apiUrl = 'https://ctd-fe2-todo-v2.herokuapp.com'
-const createTaskButtonElement = document.querySelector('#createTaskButton')
-const skeletonElement = document.querySelector('#skeleton')
-const listTasks = document.querySelector('.tarefas-pendentes')
-var token = sessionStorage.User
+﻿// URL DO SERVIDOR (API)
+const serverAPI = "https://ctd-fe2-todo-v2.herokuapp.com/v1"
 
-// CONFIGURAÇÃO DO HEADER DE AUTENTICAÇÃO PARA RODAR O GETME E OBTER NOME, SOBRENOME, EMAIL E ID DO USUÁRIO
-var headersAuthRequest = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': token
-}
-    
+
+// OBTER DA SESSIONSTORAGE O TOKEN DO USUÁRIO LOGADO
+const token = sessionStorage.User;
+
+const headersAuthRequest = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+
 function logout() {
+    // AO FAZER LOGOUT RETORNAR PARA INDEX 
     window.location.href = "./index.html"
     // AO FAZER LOGOUT REMOVER DADOS DO SESSION STORAGE 
     sessionStorage.User = ""
 }
 
+//======================================================================================================================== Carregar Dados do usuário e Tasks
 
 function usuarioLoad() {
-    //1 - VALIDAR SE NA SESSIONSTORAGE EXISTE UM USUÁRIO SALVO
-    // * SE HOUVER = LOGIN OK
-   
-    fetch('https://ctd-fe2-todo-v2.herokuapp.com/v1/users/getMe', { headers: headersAuthRequest }).then(
+    fetch(`${serverAPI}/users/getMe`, { headers: headersAuthRequest }).then(
         response => {
             if (response.ok) {
                 response.json().then(
                     user => {
-                        //OBJETO CONTENDO TODOS OS DADOS DO USUÁRIO
-                        var UserData = {
-                            firstName: user.firstName,
-                            lastName: user.lastName,
-                            email: user.email,
-                            id: user.id
-                        }
-                        document.getElementById("usuario").innerHTML = `${UserData.firstName} ${UserData.lastName}`
+                        document.getElementById("usuario").innerHTML = `${user.firstName} ${user.lastName}`
                     }
                 )
-//            } else {
-//                localStorage.clear()
-//                window.location.href = './index.html'
+            } else {
+                localStorage.clear()
+                window.location.href = './index.html'
             }
         }
     )
+// Carregar Tarefas após página carregada
     getListTarefas()
 }
+//========================================================================================================================
 
-//============================================
-//     Função para mostrar Nome do User
-//   Função Duplicada: A função usuarioLoad já realiza o processo de buscar os dados do usário e inserir Nome e Sobrenome na página.
-//============================================
 
-function getUserInfo() {
+//======================================================================================================================== criar nova Task
+function criarTask() {
+    let task = document.getElementById("novaTarefa").value
+    if (task != "") {
 
-    
-    fetch(`${apiUrl}/users/getMe`, { headers: headersAuthRequest }).then(
+        let newTask = {
+            'description': JSON.stringify(task),
+            'completed': false
+        }
 
-        response => {
+        var requestPostConfiguration = {
+            method: 'POST',
+            headers: headersAuthRequest,
+            body: JSON.stringify(newTask)
+        }
 
-            if(response.ok) {
 
+        fetch(`${serverAPI}/tasks`, requestPostConfiguration).then(
+            response => {
                 response.json().then(
-
-                    user => {
-
-                        console.log(user)
-                        console.log(`${user.firstName} ${user.lastName}`)
-
-                        // !Insira a lógica aqui para mostrar o Nome Completo do usuário no HTML da Aplicação
-
+                    tasks => {
+alert ("Task Criada com Sucesso!")
                     }
-
                 )
-
-            } else {
-
-                localStorage.clear()
-                window.location.href = './../index.html'
-
             }
-
-        }
-
-    )
-
+        )
+    } else { alert("Insira uma Nova Tarefa!") }
 }
-
-//============================================
-//       Função que Obtem as Tarefas
-// Função Duplicada, a função "getListTarefas" já realiza o processo de Obter as Tarefas e Inseri-las na página
-//============================================
-function getTasks() {
-
-    fetch(`${apiUrl}/tasks`, { headers: headersAuthRequest }).then(
-
-        response => {
-
-            response.json().then(
-
-                tasks => {
-
-                    skeletonElement.style.display = 'none'
-
-                    // Remoção dos itens que estavam antes dentro da Lista inicial
-                    listTasks.innerHTML = ''
-
-                    for(let task of tasks) {
-
-                        console.log(task)
-
-                        listTasks.innerHTML +=
-                            `
-                                <li class="tarefa">
-                                    <div class="not-done"></div>
-                                    <div class="descricao">
-                                        <p class="nome">${task.description}</p>
-                                        <p class="timestamp">Criada em: 15/07/21</p>
-                                    </div>
-                                </li>
-                            `
-                    }
-
-                }
-
-            )
-
-        }
-
-    )
-
-}
-
-if(token === null) {
-
-    window.location.href = './../index.html'
-} else {
-    // getUserInfo()
-  //  getTasks()
-}
+//========================================================================================================================
 
 
-//============================================
-//       Função que so deus sabe
-// Função para obter as tarefas concluídas e pendentes.
-//============================================
+
+//======================================================================================================================== Obter Lista Das Tarefas
 function getListTarefas() {
 
-    fetch('https://ctd-fe2-todo-v2.herokuapp.com/v1/tasks', { headers: headersAuthRequest }).then(
+    fetch(`${serverAPI}/tasks`, { headers: headersAuthRequest }).then(
         response => {
             response.json().then(
                 tasks => {
-                    if(tasks.completed = "false"){
                     for (let task of tasks) {
-                        document.getElementById('tarefas-pendentes').innerHTML += `
+                        if (task.completed != true) {
+                            document.getElementById('tarefas-pendentes').innerHTML += `
                         <li class="tarefa">
-                          <div class="not-done"></div>
-                          <div class="descricao"><p>${task.description}</p>
+                          <div onclick="inputTask(${task.id})" class="not-done"></div>
+                          <div class="descricao"><input  class="task" id=${task.id} value=${task.description}>
                             <p class="nome">Nova tarefa</p>
-                            <p>Criada em: ${FormatarData(task.createdAt)}</p>
-                        </li>
+                            <p class="dataVal">Criada Em: ${dataAtualFormatada(task.createdAt)}</p>
+                            <div>
+                            <button id="B${task.id}" onclick="inputEditTask(${task.id})">Enviar</button>
+			    <button onclick="TaskConcluida(${task.id})">Concluir</button>
+                            <button onclick="deletarTask(${task.id})">Deletar</button>
+                           </div>
+                        </div>
+                    </li>
                         `
-                    }
-                }else{
-                    for (let task of tasks) {
-                    document.getElementById('tarefas-terminadas').innerHTML += `
-                    <ul class="tarefas-terminadas">
-                    <div>
+                            let button = document.getElementById(`B${task.id}`)
+                            var input = document.getElementById(task.id);
+                            input.disabled = true;
+                            button.style.display = 'none';
+
+                        } else {
+                            document.getElementById('tarefas-terminadas').innerHTML += `
                     <li class="tarefa">
                       <div class="not-done"></div>
                       <div class="descricao"><p>${task.description}</p>
-
-                        <p>Criada em: ${FormatarData(task.createdAt)}</p>
-                      </div>
+                        <p>${dataAtualFormatada(task.createdAt)}</p>
+                        <div>
+			<button onclick="reabrirTask(${task.id})">Retornar</button>
+                        <button onclick="deletarTask(${task.id})">Deletar</button>
+                        </div>
+                        </div>
                     </li>
                     `
-                }}
+                        }
+                    }
                 }
             )
         }
@@ -182,73 +123,90 @@ function getListTarefas() {
 }
 
 
-//============================================
-//       Função que cria uma task
-//============================================
-function createTask() {
+//======================================================================================================================== Função para Tornar Editável o input de uma tarefa
+function inputTask(id) {
+    let button = document.getElementById(`B${id}`)
+    let input = document.getElementById(id)
+    input.disabled = false;
+    button.style.display = '';
+}
 
-    // Objeto que será enviado para a API
-    let data = {
-        description: 'Tarefa Teste',
-        completed: false
-    }
-
-    // Objeto que servira como Configuração da Requisição de POST
-    let postRequestConfiguration = {
-        method: 'POST',
-        headers: headersAuthRequest,
-        body: JSON.stringify(data)
-    }
-
-    fetch(`${apiUrl}/tasks`, postRequestConfiguration).then(
-
-        response => {
-
-            if(response.ok) {
-
-                // !Inserir Lógica para obter as Tarefas Novamente
-
-            }
-
+//======================================================================================================================== Função para Editar Tasks
+function inputEditTask(id) {
+    let input = document.getElementById(id).value
+    if (input != "") {
+        var newTask = {
+            "description": JSON.stringify(input),
+            "completed": false
         }
-
-    )
-
-}
-
-
-//============================================
-//  Event Listener do Botão para criar Task
-//============================================
-createTaskButtonElement.addEventListener('click', event => {
-
-    event.preventDefault()
-
-    // Chama a função que Cria uma Tarefa
-    createTask()
-
-})
-
-//============================================
-//         Datas Padrão Brasil
-//============================================
-let dataCriacao = new Date(task.createdAt)
-let dataCriacaoFormatada = dataCriacao.toLocaleDateString(
-    'pt-BR',
-    {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
+        let metodo = "PUT"
+        pushData(id, newTask, metodo)
     }
-)
-
-function FormatarData(){
-    var data = new Date(),
-        dia  = data.getDate().toString(),
-        diaF = (dia.length == 1) ? '0'+dia : dia,
-        mes  = (data.getMonth()+1).toString(), //+1
-        mesF = (mes.length == 1) ? '0'+mes : mes,
-        anoF = data.getFullYear();
-    return diaF+"/"+mesF+"/"+anoF;
 }
-// parei a aula de 05/07 as 53:02
+
+//======================================================================================================================== Função para Concluir uma Task
+function TaskConcluida(id) {
+    var newTask = {
+        "completed": true
+    }
+    let metodo = "PUT"
+    pushData(id, newTask, metodo)
+}
+
+
+//======================================================================================================================== Função para Reabrir uma Task
+function reabrirTask(id) {
+    let newTask = {
+        "completed": false
+    }
+    let metodo = "PUT"
+    pushData(id, newTask, metodo)
+}
+
+//======================================================================================================================== Função para Deletar uma Task
+function deletarTask(id) {
+    let newTask = {
+        'description': "",
+        'completed': false
+    }
+
+    let metodo = "DELETE"
+    pushData(id, newTask, metodo)
+}
+
+//========================================================================================================================
+function pushData(id, newTask, metodo) {
+
+    var requestPostConfiguration = {
+        method: metodo,
+        headers: requestHeaders,
+        body: JSON.stringify(newTask)
+    }
+
+    fetch(`${serverAPI}/tasks/${id}`, requestPostConfiguration).then(
+        response => {
+            response.json().then(
+                tasks => {
+
+
+                   // window.location.href = "./tarefas.html"
+                }
+            )
+        }
+    )
+}
+
+// Função para fazer a formatação de data e hora
+
+function dataAtualFormatada(dataValue) {
+    let data = dataValue
+    let ano = data.substring(0, 4)
+    let mes = data.substring(5, 7)
+    let dia = data.substring(8, 10)
+    let hora = data.substring(11, 13)
+    let minuto = data.substring(14, 16)
+    return `${dia}/${mes}/${ano}`
+}
+
+
+////--------------------------------------------------------------------

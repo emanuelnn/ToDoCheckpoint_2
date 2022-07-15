@@ -1,3 +1,5 @@
+﻿var serverAPI = "https://ctd-fe2-todo-v2.herokuapp.com/v1"
+
 function Validacoes() {
     /* DEFININDO VARIÁVEIS */
     let nome = document.querySelector("#name").value
@@ -109,15 +111,13 @@ function push(dados) {
         'Content-Type': 'application/json'
     }
 
-    // Variavel que irá conter o nosso objeto de configuração da requisição
     var requestPostConfiguration = {
         method: 'POST',
         headers: requestHeaders,
         body: JSON.stringify(dados)
     }
-    // O Fetch é responsável por fazer uma requisição para um back-end
-    // O parametro do fetch serve justamente para especificarmos aonde ele irá fazer a requisição
-    fetch('https://ctd-fe2-todo-v2.herokuapp.com/v1/users', requestPostConfiguration).then(
+
+    fetch(`${serverAPI}/users`, requestPostConfiguration).then(
 
         response => {
 
@@ -132,7 +132,7 @@ function push(dados) {
                         document.querySelector("#resultado").value = "Sucesso!"
                         console.log(response)
                         alert("Cadastrado!")
-                        window.location.href = "/index.html"
+                        window.location.href = "./index.html"
                     } else {
 
                         if (success === 'El usuario ya se encuentra registrado') {
@@ -163,3 +163,4 @@ function validarCampos(color) {
     document.getElementById("name").style.borderRadius = "2em"
     resultado.innerHTML = ""
 }
+

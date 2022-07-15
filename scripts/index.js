@@ -1,13 +1,22 @@
+﻿var serverAPI = "https://ctd-fe2-todo-v2.herokuapp.com/v1"
+
+
 function login() {
+    let loading = document.getElementById("loading");
+    loading.style.display = '';
     let erro = "rgb(165, 42, 42)"
     let email = document.getElementById("inputEmail").value
+    let passwordVerify = document.getElementById("inputPassword").value
     let alert = document.getElementById("alertPassword")
+
     if (email != "") {
+        //Validação do E-mail
         var re = /\S+@\S+\.\S+/;
         if (re.test(email) == true) {
             var emailLogin = document.getElementById("inputEmail").value
             var senhaLogin = document.getElementById("inputPassword").value
 
+            //Cria body para envio à API
             var formData = {
                 "email": emailLogin,
                 "password": senhaLogin
@@ -18,22 +27,22 @@ function login() {
                 'Content-Type': 'application/json'
             }
 
-            // Variavel que irá conter o nosso objeto de configuração da requisição
-                var requestPostConfiguration = {
-                    method: 'POST',
-                    headers: requestHeaders,
-                    body: JSON.stringify(formData)
-                }
+            var requestPostConfiguration = {
+                method: 'POST',
+                headers: requestHeaders,
+                body: JSON.stringify(formData)
+            }
 
-            // O Fetch é responsável por fazer uma requisição para um back-end
-            // O parametro do fetch serve justamente para especificarmos aonde ele irá fazer a requisição
-            fetch('https://ctd-fe2-todo-v2.herokuapp.com/v1/users/login', requestPostConfiguration).then(
+            fetch(`${serverAPI}/users/login`, requestPostConfiguration).then(
                 response => {
                     response.json().then(
                         success => {
+                            console.log(success)
+                            console.log(response)
                             if (response.status == "201") {
                                 // USUÁRIO LOGADO COM SUCESSO!! IR OPARA PAGINA DE TAREFAS
                                 sessionStorage.setItem("User", success.jwt)
+                                
                                 window.location.href = "./tarefas.html"
                             } else if (response.status == "400") {
                                 // SENHA INCORRETA
@@ -48,12 +57,16 @@ function login() {
             )
         } else {
             document.getElementById("inputEmail").style.borderBlockColor = erro
-            alert.innerHTML = "Insira um endereço de E-mail válido!"
+            alert.innerHTML = "Digite Seus Dados Corretamente"
+            let loading = document.getElementById("loading");
+            loading.style.display = 'none';
         }
     }
 }
 
 function buttonDisable() {
+    let loading = document.getElementById("loading");
+    loading.style.display = 'none';
     document.getElementById("acessar").style.backgroundColor = "rgb(156, 156, 156)"
     var email = document.getElementById("inputEmail");
     var senha = document.getElementById("inputPassword");
@@ -66,3 +79,5 @@ function buttonDisable() {
         document.getElementById("acessar").style.backgroundColor = "rgb(12, 81, 185)"
     }
 }
+
+

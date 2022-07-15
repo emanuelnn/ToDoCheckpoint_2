@@ -1,5 +1,17 @@
 @import url('./common.css');
 
+
+
+#loading{
+  background-image:url();
+  position: absolute;
+  top: 50%;
+  left:40%; /* posiciona na metade da tela */
+  margin-top: -25px; /* e retrocede metade da altura */
+  width: 100px;
+  height: 100px;;
+}
+
 body{
   display: flex;
 }
@@ -11,7 +23,7 @@ h1 {
 }
 
 form {
-  position: relative;
+  position:static;
   max-width: 26em;
   background-color: white;
   display: flex;
@@ -113,3 +125,6 @@ input:invalid{
 #resultado{
   color: rgb(233, 0, 0);
 }
+
+
+
