@@ -62,7 +62,9 @@ function criarTask() {
             response => {
                 response.json().then(
                     tasks => {
-alert ("Task Criada com Sucesso!")
+        alert ("Task Criada com Sucesso!")
+                window.location.href = "./tarefas.html"
+
                     }
                 )
             }
@@ -179,7 +181,7 @@ function pushData(id, newTask, metodo) {
 
     var requestPostConfiguration = {
         method: metodo,
-        headers: requestHeaders,
+        headers: headersAuthRequest,
         body: JSON.stringify(newTask)
     }
 
@@ -187,9 +189,7 @@ function pushData(id, newTask, metodo) {
         response => {
             response.json().then(
                 tasks => {
-
-
-                   // window.location.href = "./tarefas.html"
+                    window.location.href = "./tarefas.html"
                 }
             )
         }
