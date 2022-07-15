@@ -44,7 +44,7 @@ function usuarioLoad() {
 //======================================================================================================================== criar nova Task
 function criarTask() {
     let task = document.getElementById("novaTarefa").value
-    if (task != "") {
+    if (task.length > 5) {
 
         let newTask = {
             'description': JSON.stringify(task),
